@@ -52,8 +52,27 @@ console.log('x'.repeat(NaN)); // 输出来的是空的
  * padStart(),padEnd()
  * padStart()用于头部补全
  * padEnd()用于尾部补全
- * 
+ * 一共接受两个参数，第一个参数是字符串补全生效的最大长度，第二个参数是用来补全的字符串。
+ * 如果省略第二个参数，默认使用空格补全长度。
 */
 
 console.log('x'.padStart(9, 'tab'));
 console.log('abc'.padEnd(9, '==='));
+console.log('xyz'.padStart(4)); // xyz
+
+/** 
+ * trimStart()--消除字符串头部的空格,
+ * trimEnd()--消除尾部的空格;
+ * 返回的都是新字符串，不会修改原始字符串。
+*/
+
+var s = '  abc   ';
+console.log(s.trimStart(), 's.trimStart()');
+console.log(s, 's');
+console.log(s.trimEnd(), 'trimEnd');
+console.log(s, 's====');
+console.log(s.trim()); //消除头部和尾部的空格
+
+/** 
+ * matchAll()方法返回一个正则表达式在当前字符串的所有匹配
+*/
