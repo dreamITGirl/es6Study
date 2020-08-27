@@ -1,6 +1,7 @@
 "use strict";
 
 /** 
+ * 一、
  * 1. 函数默认值
  * ES6允许为函数的参数设置默认值，即直接卸载参数定义的后面
  * ES6写法的好处：
@@ -271,3 +272,106 @@ function bar1() {
   var foo1 = 'inner';
   console.log(func());
 } // bar1() //报错 ReferenceError: foo1 is not defined
+
+/** var x = 1
+function foo(x,y = function () {
+    x = 2
+}) {
+    var x = 3
+    y()
+    console.log(x);
+}
+foo() // 3
+console.log(x,'x==='); // 1
+**/
+
+
+var x1 = 1;
+
+function foo1(x1) {
+  var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {
+    x1 = 2;
+  };
+  x1 = 3;
+  y();
+  console.log(x1);
+}
+
+foo1(); // 2
+
+console.log(x1, '===x==='); // 1
+
+/** 
+ * 二、rest 函数
+ * ES6 引入 rest 参数（形式为...变量名），
+ * 用于获取函数的多余参数，这样就不需要使用arguments对象了。
+ * rest 参数搭配的变量是一个数组，该变量将多余的参数放入数组中。
+*/
+
+function sumNum() {
+  var sum = 0;
+
+  for (var _len = arguments.length, values = new Array(_len), _key = 0; _key < _len; _key++) {
+    values[_key] = arguments[_key];
+  }
+
+  for (var _i = 0, _values = values; _i < _values.length; _i++) {
+    var val = _values[_i];
+    sum += val;
+  }
+
+  console.log(sum);
+  return sum;
+}
+
+sumNum(2, 3, 4); // 9
+// function foos(a,...b,c){
+// ...会报错
+// rest 参数之后不能再有其他参数（即只能是最后一个参数），否则会报错。
+// }
+//可改写为
+
+/** 
+ * function foos(a,c,...b){
+ *  //todo
+ * }
+*/
+//函数的length属性，不包括 rest 参数。
+
+console.log(function (a) {}.length); // 1
+
+console.log(function () {}.length); // 0
+
+/** 
+ * 三、严格模式
+*/
+//ES5 严格模式
+
+function a() {
+  'use strict'; // code
+} // ES6 严格模式；规定只要函数参数使用了默认值、解构赋值、或者扩展运算符，
+// 那么函数内部就不能显式设定为严格模式，否则会报错。
+//设置严格模式的两种方式
+// a.设定全局性的严格模式
+// "use strict"
+// function dosomething(){
+//     //todo
+// }
+// b.把函数包在一个无参数的立即执行函数里面
+
+
+var dosomething = function dosomething() {
+  'use strict';
+
+  return function () {
+    var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 42;
+    return value;
+  };
+};
+/** 
+ * 四、name属性
+*/
+
+/** 
+ * 五、箭头函数
+*/
