@@ -242,3 +242,74 @@ const dosomething = (function () {
 */
 var f = v => v
 console.log(f(2)); // 2
+//如果函数不需要参数，或者需要多个参数，用圆括号表示
+var add = (a,b) => {return a+b}
+console.log(add(10,2)) //12
+var add1 = (a,b) => a+b
+console.log(add1(4,3)) // 7
+// 箭头函数的一个用处是简化回调函数。
+console.log([1,2,3].map(x=>x+x)) // [2,4,6]
+
+//rest结合箭头函数的写法
+const numbers = (...nums) => nums
+console.log(numbers(1,2,3,4,5)) //[1,2,3,4,5]
+const headAndTail = (head,...tail) => [head.tail]
+console.log(headAndTail(1,2,3,4,5)) // [1,[2,3,4,5]]
+
+/** 
+ * 箭头函数注意事项：
+ * 1、this指向 是定义是所在的对象，而不是使用时所在的对象
+ * 2、不可以当作构造函数，也就是说，不能使用new 命令
+ * 3、不可以使用arguments对象，该对象在函数体内不存在，如果使用的话，可用rest参数代替
+ * 4、不能使用yield,因此箭头函数不能用作 Generator 函数
+ * 第一点尤其值得注意。this对象的指向是可变的，但是在箭头函数中，它是固定的。
+*/
+function thisFunc(){
+    setTimeout(()=>{
+        console.log(`id:${this.id}`)
+    },100)
+}
+var id = 21
+thisFunc() //undefined
+thisFunc.call({id:99}) // 99
+
+function Timer() {
+    this.s1 = 0;
+    this.s2 = 0;
+    // 箭头函数
+    setInterval(() => this.s1++, 1000);
+    // 普通函数
+    setInterval(function () {
+        this.s2++;
+    }, 1000);
+}
+
+var timer = new Timer();
+
+setTimeout(() => console.log('s1: ', timer.s1), 3100); // 3
+setTimeout(() => console.log('s2: ', timer.s2), 3100); // 0
+/** 
+ * this指向的固定化，并不是因为箭头函数内部有绑定this的机制，
+ * 实际原因是箭头函数根本没有自己的this，导致内部的this就是外层代码块的this。
+ * 正是因为它没有this，所以也就不能用作构造函数。
+*/
+//不适合的场合
+// 第一个场合是定义对象的方法，且该方法内部包括this
+const cat = {
+    lives: 9,
+    jumps: () => {
+      this.lives--;
+    }
+} //箭头函数的this指向的是全局，在全局中没有lives的变量，因此，执行cat中的jump函数会报错
+
+var button = document.getElementById('press');
+button.addEventListener('click', () => {
+  this.classList.toggle('on');
+});
+//button监听的事件应该是发生在button 上的，而不是全局的this，
+// 在这个箭头函数中，this 指向全局的this，因此会报错
+// 第二个场合是需要动态this的时候，也不应使用箭头函数。
+
+/*** 
+ *  六、尾调用优化
+*/
